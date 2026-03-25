@@ -1,0 +1,134 @@
+:root {
+  --bg:#141414; /* página escura */
+  --muted:#e5e5e5;
+  --accent:#e50914; /* vermelho Netflix */
+}
+
+/* Reset mínimo */
+* { box-sizing: border-box; }
+html,body { height:100%; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--muted);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+main{
+  width:100%;
+  max-width:960px;
+  padding:48px 20px;
+}
+
+header h1{
+  margin:0 0 28px 0;
+  color:#fff;
+  text-align:center;
+  font-size:2rem;
+  font-weight:700;
+  letter-spacing:0.4px;
+}
+
+section[aria-label="Perfis de usuários"]{
+  display:flex;
+  gap:28px;
+  justify-content:center;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  position:relative;
+  padding-top:48px; 
+}
+
+.perfil{
+  display:inline-block;
+  width:140px;
+  text-align:center;
+  text-decoration:none;
+  color:inherit;
+  border-radius:10px; 
+}
+
+.perfil figure{
+  margin:0;
+  width:140px;
+  height:140px;
+}
+
+.perfil img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:8px;
+  display:block;
+  margin:0 auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+figcaption{
+  margin-top:10px;
+  font-size:0.98rem;
+  color:var(--muted);
+  position:static;
+  background:transparent;
+  text-shadow:none;
+}
+
+.perfil:hover img,
+.perfil:focus img{
+  transform: scale(1.06) translateZ(0);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.75), 0 0 0 4px rgba(229,9,20,0.18);
+}
+
+.perfil:hover figcaption,
+.perfil:focus figcaption{
+  color:#fff;
+}
+
+.section-title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  top:0;
+  margin:0;
+  color:#fff;
+  font-size:1.6rem;
+  font-weight:700;
+  text-align:center;
+}
+
+
+.perfil:focus{
+  outline:none;
+}
+
+.perfil:focus-visible{
+  box-shadow: 0 0 0 4px rgba(229,9,20,0.18);
+  border-radius:12px;
+}
+
+header p{
+  color:#bdbdbd;
+  text-align:center;
+  margin-top:8px;
+}
+
+@media (max-width:520px){
+  .perfil{ width:110px; }
+  .perfil figure{ width:110px; height:110px; }
+  .perfil img{ width:110px; height:110px; }
+  .section-title{ font-size:1.1rem; }
+  main{ padding:28px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .perfil img{ transition:none; }
+  figcaption{ transition:none; }
+}
+
+footer{ display:none; }
