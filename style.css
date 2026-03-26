@@ -1,10 +1,13 @@
 :root {
-  --bg:#141414; /* página escura */
+  --bg:#141414;
   --muted:#e5e5e5;
-  --accent:#e50914; /* vermelho Netflix */
+  --accent:#e50914; 
+  --avatar-size: clamp(86px, 12vw, 140px);
+  --gap: clamp(12px, 2.5vw, 28px);
+  --container-padding: clamp(20px, 4vw, 48px);
+  --title-size: clamp(1rem, 3.2vw, 1.6rem);
 }
 
-/* Reset mínimo */
 * { box-sizing: border-box; }
 html,body { height:100%; }
 body{
@@ -19,34 +22,66 @@ body{
   justify-content:center;
 }
 
+/* Borda de fundo suave e desfocada (quase imperceptível) */
+body::before{
+  content: "";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  /* degradês sutis nas quatro bordas (top, bottom, left, right) */
+  background-image:
+    linear-gradient(to bottom, rgba(229,9,20,0.05), rgba(229,9,20,0.02) 12%, transparent 28%),
+    linear-gradient(to top, rgba(229,9,20,0.05), rgba(229,9,20,0.02) 12%, transparent 28%),
+    linear-gradient(to right, rgba(229,9,20,0.04), transparent 20%),
+    linear-gradient(to left, rgba(229,9,20,0.04), transparent 20%);
+  background-repeat:no-repeat;
+  background-position: top, bottom, left, right;
+  background-size: 100% 8%, 100% 8%, 8% 100%, 8% 100%;
+  filter: blur(6px);
+  z-index:0;
+}
+
 main{
   width:100%;
-  max-width:960px;
-  padding:48px 20px;
+  max-width:1200px;
+  padding:var(--container-padding);
+  min-height:100vh; /* centralizar verticalmente */
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  position:relative; /* ficar acima do pseudo-elemento */
+  z-index:1;
 }
 
-header h1{
-  margin:0 0 28px 0;
-  color:#fff;
-  text-align:center;
-  font-size:2rem;
-  font-weight:700;
-  letter-spacing:0.4px;
-}
+
 
 section[aria-label="Perfis de usuários"]{
-  display:flex;
-  gap:28px;
-  justify-content:center;
-  flex-wrap:wrap;
-  align-items:flex-start;
   position:relative;
-  padding-top:48px; 
+  padding-top:0;
+}
+
+.perfis{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:center;
+}
+
+.perfis-ordenadas{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  gap:var(--gap);
+  align-items:center;
 }
 
 .perfil{
   display:inline-block;
-  width:140px;
+  width:var(--avatar-size);
+  max-width:100%;
   text-align:center;
   text-decoration:none;
   color:inherit;
@@ -55,8 +90,8 @@ section[aria-label="Perfis de usuários"]{
 
 .perfil figure{
   margin:0;
-  width:140px;
-  height:140px;
+  width:100%;
+  height:var(--avatar-size);
 }
 
 .perfil img{
@@ -72,7 +107,7 @@ section[aria-label="Perfis de usuários"]{
 
 figcaption{
   margin-top:10px;
-  font-size:0.98rem;
+  font-size:clamp(0.85rem, 1.8vw, 1rem);
   color:var(--muted);
   position:static;
   background:transparent;
@@ -91,15 +126,18 @@ figcaption{
 }
 
 .section-title{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  top:0;
-  margin:0;
+  position:static;
+  transform:none;
+  margin:0 0 calc(var(--gap));
   color:#fff;
-  font-size:1.6rem;
+  font-size:var(--title-size);
   font-weight:700;
   text-align:center;
+  /* força o título a ocupar a linha inteira dentro do flex container */
+  flex: 1 1 100%;
+  order: -1;
+  width:100%;
+  align-self:center;
 }
 
 
@@ -112,18 +150,134 @@ figcaption{
   border-radius:12px;
 }
 
-header p{
-  color:#bdbdbd;
-  text-align:center;
-  margin-top:8px;
+
+
+@media (max-width:900px){
+  :root{ --container-padding: clamp(16px, 6vw, 40px); }
+}
+
+/* Empilhar avatares e mover título para topo em dispositivos menores */
+@media (max-width:720px){
+  /* tamanhos menores e responsivos para dispositivos menores */
+  :root{
+    --avatar-size: clamp(96px, 16vw, 160px);
+    --title-size: clamp(1.2rem, 5.5vw, 1.8rem);
+    --figcaption-size: clamp(1rem, 3.8vw, 1.2rem);
+  }
+  section[aria-label="Perfis de usuários"]{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:0; /* título ficará estático acima */
+    gap:var(--gap);
+  }
+
+  .section-title{
+    position:static;
+    transform:none;
+    margin:0 0 calc(var(--gap));
+    font-size: var(--title-size);
+  }
+
+  /* Empilhar a lista interna de perfis para que fiquem um abaixo do outro */
+  .perfis-ordenadas{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:var(--gap) !important;
+    align-items:center !important;
+    width:100% !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  /* Garantir que as legendas dos perfis apareçam em telas pequenas */
+  .perfil figcaption{
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    color:#fff !important; /* branco para contraste */
+    font-weight:600 !important;
+    margin-top:8px !important;
+    z-index:2 !important;
+    position:relative !important;
+    text-align:center !important;
+    background:transparent !important;
+    font-size: var(--figcaption-size) !important;
+  }
+
+  /* Usar a variável responsiva para imagens e textos */
+  .perfil img{
+    width: var(--avatar-size) !important;
+    height: var(--avatar-size) !important;
+    max-width: none !important;
+  }
+
+  .section-title{
+    font-size: var(--title-size) !important;
+  }
+
+  .perfil figcaption{
+    font-size: var(--figcaption-size) !important;
+  }
+
+  /* Mostrar o nome lateralmente ao avatar em telas pequenas
+     e garantir que as imagens fiquem alinhadas (mesma posição X) */
+  .perfil{
+  width: auto !important; /* deixe a largura do bloco no tamanho do conteúdo */
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important; /* centralizar imagem + nome dentro do bloco */
+  margin: 0 auto !important; /* centralizar o bloco na tela */
+  transform: translateX(-8px) !important; /* deslocar levemente para a esquerda */
+    gap:12px !important;
+    padding:6px 8px !important;
+  }
+
+  /* Dentro do perfil, manter figure com tamanho fixo e legenda flexível */
+  .perfil figure{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  gap:12px !important;
+  width:auto !important;
+  height:auto !important;
+  margin:0 !important;
+  flex: 0 0 var(--avatar-size) !important;
+  min-width: var(--avatar-size) !important;
+  }
+
+  .perfil img{
+  width:calc(var(--avatar-size) + 8px) !important;
+  height:calc(var(--avatar-size) + 8px) !important;
+    flex:0 0 var(--avatar-size) !important;
+    border-radius:8px !important;
+    margin:0 !important;
+    display:block !important;
+  }
+
+  .perfil figcaption{
+  margin-top:0 !important;
+  font-size:calc(clamp(1rem, 3.5vw, 1.2rem) + 0.08rem) !important;
+  text-align:center !important;
+    color:#fff !important;
+    line-height:1 !important;
+    display:block !important;
+    flex:1 1 auto !important;
+  }
 }
 
 @media (max-width:520px){
-  .perfil{ width:110px; }
-  .perfil figure{ width:110px; height:110px; }
-  .perfil img{ width:110px; height:110px; }
-  .section-title{ font-size:1.1rem; }
-  main{ padding:28px 12px; }
+  :root{ --avatar-size: clamp(72px, 20vw, 110px); --gap:12px; --container-padding:20px; }
+  /* Ajustes para telas muito pequenas: usar var(--avatar-size) menor */
+  .perfil img{
+    width: var(--avatar-size) !important;
+    height: var(--avatar-size) !important;
+    max-width: none !important;
+  }
+  .section-title{ font-size: clamp(1.1rem, 6vw, 1.5rem) !important; }
+  .perfil figcaption{ font-size: clamp(0.98rem, 3.6vw, 1.1rem) !important; }
+  main{ padding:20px; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -131,4 +285,4 @@ header p{
   figcaption{ transition:none; }
 }
 
-footer{ display:none; }
+
