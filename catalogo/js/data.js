@@ -3,7 +3,7 @@ export const categories = [
         title: "Épicos",
         items: [
             {
-                img: "https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg", top10: true, badge: "Clássico", badgeColor: "red", progress: 0,
+                img: "https://s2-techtudo.glbimg.com/dXL1uMCpYdPKYpULv50MJQYir6Q=/0x0:2000x1202/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2022/u/Y/7rgbnyR8AizUbcIO4wQw/hp-capa.jpg", top10: true, badge: "Clássico", badgeColor: "red", progress: 0,
                 youtube: "https://www.youtube.com/watch?v=bLvqoHBptjg"
             },
             {

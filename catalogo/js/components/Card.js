@@ -9,6 +9,12 @@ export function createCard(item) {
 
     const img = document.createElement('img');
     img.src = item.img;
+    // fallback para imagens que não carregam (hotlink bloqueado ou URL inválida)
+    img.onerror = () => {
+        console.warn('Imagem falhou ao carregar, usando fallback:', item.img);
+        img.onerror = null;
+        img.src = '../imagens/perfil1.jpg';
+    };
     img.alt = `Movie cover`;
 
     const iframe = document.createElement('iframe');
