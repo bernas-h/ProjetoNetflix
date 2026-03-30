@@ -6,6 +6,15 @@
   --gap: clamp(12px, 2.5vw, 28px);
   --container-padding: clamp(20px, 4vw, 48px);
   --title-size: clamp(1rem, 3.2vw, 1.6rem);
+  --text: #e2d6d6e1; /* cor principal do texto (dark mode padrão) */
+}
+
+/* Light theme variables (aplicadas adicionando .light ao <body> ou <html>) */
+.light {
+  --bg: #e2d6d6e1;
+  --muted: #3a3a3a;
+  --text: #0b0b0b;
+  --accent: #b30b10;
 }
 
 * { box-sizing: border-box; }
@@ -122,14 +131,14 @@ figcaption{
 
 .perfil:hover figcaption,
 .perfil:focus figcaption{
-  color:#fff;
+  color:var(--text);
 }
 
 .section-title{
   position:static;
   transform:none;
   margin:0 0 calc(var(--gap));
-  color:#fff;
+  color:var(--text);
   font-size:var(--title-size);
   font-weight:700;
   text-align:center;
@@ -195,7 +204,7 @@ figcaption{
     display:block !important;
     visibility:visible !important;
     opacity:1 !important;
-    color:#fff !important; /* branco para contraste */
+  color:var(--text) !important; /* contraste tema */
     font-weight:600 !important;
     margin-top:8px !important;
     z-index:2 !important;
@@ -260,7 +269,7 @@ figcaption{
   margin-top:0 !important;
   font-size:calc(clamp(1rem, 3.5vw, 1.2rem) + 0.08rem) !important;
   text-align:center !important;
-    color:#fff !important;
+  color:var(--text) !important;
     line-height:1 !important;
     display:block !important;
     flex:1 1 auto !important;
